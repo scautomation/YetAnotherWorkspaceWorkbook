@@ -1,0 +1,1084 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "{WSAppInsights}"
+        ],
+        "parameters": [
+          {
+            "id": "20980b77-e8f1-4265-a690-0beabd4e4c25",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscriptions",
+            "type": 6,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "includeAll": true
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "defaultValue": "value::all",
+            "value": [
+              "value::all"
+            ]
+          },
+          {
+            "id": "4a0aedc7-21e3-400c-bb10-456f27d71127",
+            "version": "KqlParameterItem/1.0",
+            "name": "detectCluster",
+            "type": 2,
+            "query": "resources\r\n| where type =~ 'microsoft.operationalinsights/clusters'\r\n| summarize Count=countif(type =~ 'microsoft.operationalinsights/clusters')",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "isHiddenWhenLocked": true,
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::1"
+              ],
+              "showDefault": false
+            },
+            "defaultValue": "value::1",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          },
+          {
+            "id": "4676e05e-d811-4aef-beb0-8d1cc4e9c86f",
+            "version": "KqlParameterItem/1.0",
+            "name": "showCluster",
+            "type": 1,
+            "isHiddenWhenLocked": true,
+            "criteriaData": [
+              {
+                "criteriaContext": {
+                  "leftOperand": "detectCluster",
+                  "operator": "==",
+                  "rightValType": "static",
+                  "rightVal": "0",
+                  "resultValType": "static",
+                  "resultVal": "false"
+                }
+              },
+              {
+                "criteriaContext": {
+                  "operator": "Default",
+                  "resultValType": "static",
+                  "resultVal": "true"
+                }
+              }
+            ]
+          },
+          {
+            "id": "1d3ea9bd-d78b-414b-991a-4058da90b014",
+            "version": "KqlParameterItem/1.0",
+            "name": "Workspaces",
+            "type": 5,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources | where type =~ 'microsoft.operationalinsights/workspaces'\r\n        or type =~ 'microsoft.operationalinsights/clusters'\r\n| distinct id",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::1",
+                "value::50",
+                "value::100",
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "defaultValue": "value::50",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": [
+              "value::100"
+            ]
+          },
+          {
+            "id": "d9e8533e-a845-40e8-8f12-fd05468e7c90",
+            "version": "KqlParameterItem/1.0",
+            "name": "AppInsights",
+            "label": "Classic AppInsights",
+            "type": 5,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources \r\n| where type =~ 'microsoft.insights/components'\r\n| extend Ingestion = tostring(properties.IngestionMode)\r\n| where Ingestion == \"ApplicationInsights\"\r\n| distinct id",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::1",
+                "value::50",
+                "value::100",
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "defaultValue": "value::50",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": [
+              "value::100"
+            ]
+          },
+          {
+            "id": "c2686b2e-81e9-4d2f-b1bb-1645fa6385a9",
+            "version": "KqlParameterItem/1.0",
+            "name": "TimeRange",
+            "type": 4,
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 300000
+                },
+                {
+                  "durationMs": 900000
+                },
+                {
+                  "durationMs": 1800000
+                },
+                {
+                  "durationMs": 3600000
+                },
+                {
+                  "durationMs": 14400000
+                },
+                {
+                  "durationMs": 43200000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 172800000
+                },
+                {
+                  "durationMs": 259200000
+                },
+                {
+                  "durationMs": 604800000
+                },
+                {
+                  "durationMs": 1209600000
+                },
+                {
+                  "durationMs": 2419200000
+                },
+                {
+                  "durationMs": 2592000000
+                },
+                {
+                  "durationMs": 5184000000
+                },
+                {
+                  "durationMs": 7776000000
+                }
+              ]
+            },
+            "value": {
+              "durationMs": 2592000000
+            }
+          },
+          {
+            "id": "573df13c-fe90-422c-9855-4fb15fcdc829",
+            "version": "KqlParameterItem/1.0",
+            "name": "WSAppInsights",
+            "label": "Workspace AppInsights",
+            "type": 5,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources \r\n| where type =~ 'microsoft.insights/components'\r\n| extend Ingestion = tostring(properties.IngestionMode)\r\n| where Ingestion != \"ApplicationInsights\"\r\n| extend parentLAW = tolower(properties.WorkspaceResourceId)\r\n| where parentLAW in~ ({Workspaces}) or \"*\" in~ ({Workspaces})\r\n| distinct id",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::1",
+                "value::50",
+                "value::100",
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "defaultValue": "value::50",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": [
+              "value::100"
+            ]
+          },
+          {
+            "id": "3dc453ea-9d38-4fbf-a401-49c75152fe8a",
+            "version": "KqlParameterItem/1.0",
+            "name": "ARGInventory",
+            "type": 1,
+            "query": "resources \r\n| where type =~ 'microsoft.insights/components' \r\n        or type =~ 'microsoft.operationalinsights/workspaces'\r\n        or type =~ 'microsoft.operationalinsights/clusters'\r\n| where id in ({Workspaces}) or id in ({WSAppInsights}) or id in (\"{AppInsights}\")\r\n| extend id = tolower(id)\r\n| join kind=leftouter (\r\n        resources \r\n        | where type =~ 'microsoft.insights/components'\r\n        | extend IngestionMode = iff(properties.IngestionMode == \"ApplicationInsights\", \"Classic\", tostring(properties.IngestionMode)),\r\n                ChildAppInsights= tolower(id)\r\n        | where IngestionMode == \"LogAnalytics\"\r\n        | extend id = tolower(properties.WorkspaceResourceId)\r\n        | summarize LinkedAppInsights = count(), AppInsights = makeset(ChildAppInsights) by id)\r\n        on id\r\n| extend ClusterTier = iff(type =~ 'microsoft.operationalinsights/clusters', toint(sku.capacity), sku),\r\n            skuName = tolower(case(type =~ 'microsoft.operationalinsights/clusters', properties.billingType,\r\n                                type =~ 'microsoft.operationalinsights/workspaces', properties.sku.name,''))\r\n| extend IngestionMode = iff(properties.IngestionMode == \"ApplicationInsights\", \"Classic\", tostring(properties.IngestionMode))\r\n| extend Child = case(IngestionMode == \"LogAnalytics\", tolower(id),\r\n            isnotnull(properties.features.clusterResourceId), tolower(id),'')\r\n| extend ParentWorkspace = case(IngestionMode == \"LogAnalytics\", tolower(properties.WorkspaceResourceId),\r\n            isnotnull(properties.features.clusterResourceId), properties.features.clusterResourceId,''),\r\n        LinkedLAW = array_length(properties.associatedWorkspaces),\r\n        Retention = tostring(iff(type =~ 'microsoft.insights/components', properties.RetentionInDays, properties.retentionInDays)),\r\n        Quota = iff(properties.workspaceCapping.dailyQuotaGb == -1, \"No Quota\", properties.workspaceCapping.dailyQuotaGb),\r\n        WorkspaceRBAC = tostring(properties.features.enableLogAccessUsingOnlyResourcePermissions)\r\n| extend bag = pack_all()\r\n| summarize tostring(make_list(bag))",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "isHiddenWhenLocked": true,
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          },
+          {
+            "id": "f3db79da-dd9c-4d37-b84c-9cbf651339c7",
+            "version": "KqlParameterItem/1.0",
+            "name": "loganalytics",
+            "type": 1,
+            "query": "let daysBin = toint(datetime_diff('day',{TimeRange:end}, startofday({TimeRange:start})));\r\nUsage\r\n| where TimeGenerated >= startofday({TimeRange:start})\r\n| where IsBillable == \"true\"  \r\n| summarize TotalUsage = sum(Quantity)/1000, WSUsage = sum(Quantity)/daysBin / 1000, last_log = datetime_diff(\"second\",now(), max(TimeGenerated)), Records= count() by id = ResourceUri\r\n| extend CommitmentTier = \r\n    case(\r\n        WSUsage > 100 and WSUsage < 200, \"100 GB\",\r\n        WSUsage > 200 and WSUsage < 300, \"200 GB\",\r\n        WSUsage > 300 and WSUsage < 400, \"300 GB\",\r\n        WSUsage > 500 and WSUsage < 500, \"400 GB\",\r\n        WSUsage > 1000 and WSUsage < 2000, \"1000 GB\",\r\n        WSUsage > 2000 and WSUsage < 5000, \"2000 GB\",\r\n        WSUsage > 5000, \"5000 GB\", 'Does Not Qualify')\r\n| project bag = pack(\"id\",id,\"TotalUsage\",TotalUsage,\"WSUsage\", WSUsage, \"lastlog\",last_log, \"records\",Records, \"CommitmentTier\",CommitmentTier)\r\n| summarize tostring(make_list(bag))",
+            "crossComponentResources": [
+              "{Workspaces}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
+          },
+          {
+            "id": "1ab7f3e2-3a9f-42af-9172-7ab2a22c3785",
+            "version": "KqlParameterItem/1.0",
+            "name": "wsappinsights",
+            "type": 1,
+            "query": "let daysBin = toint(datetime_diff('day',{TimeRange:end}, startofday({TimeRange:start})));\r\nunion *\r\n| where timestamp >= startofday({TimeRange:start})\r\n| summarize WSUsage=sum(_BilledSize) / daysBin /1.E9, last_log = datetime_diff(\"second\",now(), max(timestamp)), Records= count() by id = tolower(_ResourceId)\r\n| extend CommitmentTier = \r\n    case(\r\n        WSUsage > 100 and WSUsage < 200, \"100 GB\",\r\n        WSUsage > 200 and WSUsage < 300, \"200 GB\",\r\n        WSUsage > 300 and WSUsage < 400, \"300 GB\",\r\n        WSUsage > 500 and WSUsage < 500, \"400 GB\",\r\n        WSUsage > 1000 and WSUsage < 2000, \"1000 GB\",\r\n        WSUsage > 2000 and WSUsage < 5000, \"2000 GB\",\r\n        WSUsage > 5000, \"5000 GB\", 'Does Not Qualify')\r\n| project bag = pack(\"id\",id,\"WSUsage\", WSUsage, \"lastlog\",last_log, \"records\",Records, \"CommitmentTier\",CommitmentTier)\r\n| summarize tostring(make_list(bag))",
+            "crossComponentResources": [
+              "{WSAppInsights}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "queryType": 0,
+            "resourceType": "microsoft.insights/components"
+          },
+          {
+            "id": "4b7af6a7-47a4-4cb3-8e81-ba153763015b",
+            "version": "KqlParameterItem/1.0",
+            "name": "workspaceLocation",
+            "type": 2,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources\r\n| where type =~ 'microsoft.operationalinsights/workspaces'\r\n        or type =~ 'microsoft.operationalinsights/clusters'\r\n        | distinct location",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "isHiddenWhenLocked": true,
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "defaultValue": "value::all",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components"
+      },
+      "name": "parameters - 0"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "{Subscriptions}"
+        ],
+        "parameters": [
+          {
+            "id": "542e29bc-ee95-4f75-b1c3-5e410c1b9935",
+            "version": "KqlParameterItem/1.0",
+            "name": "clusterWS",
+            "type": 5,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources\r\n| where type =~ 'microsoft.operationalinsights/clusters'\r\n| mv-expand properties.associatedWorkspaces\r\n| project id = tolower(properties_associatedWorkspaces.resourceId)",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "isHiddenWhenLocked": true,
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "defaultValue": "value::all",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          },
+          {
+            "id": "198e1e09-cf5c-4c72-b9e8-3efa17ecb9de",
+            "version": "KqlParameterItem/1.0",
+            "name": "WSnoclusters",
+            "type": 5,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources \r\n| extend id = tolower(id)\r\n| where id !in (\"{clusterWS}\") \r\n| where type =~ 'microsoft.operationalinsights/workspaces'\r\n        and type != 'microsoft.operationalinsights/clusters'\r\n        and id in~ ({Workspaces}) or '*' in~ ({Workspaces})\r\n| distinct id",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "isHiddenWhenLocked": true,
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::50",
+                "value::100",
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "defaultValue": "value::100",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          },
+          {
+            "id": "4612a6fa-ab01-4095-a771-a06dce4f1ac8",
+            "version": "KqlParameterItem/1.0",
+            "name": "totalClusterUsage",
+            "type": 1,
+            "query": "let daysBin = toint(datetime_diff('day',{TimeRange:end}, startofday({TimeRange:start})));\r\nUsage\r\n| where TimeGenerated >= startofday({TimeRange:start})\r\n| where IsBillable == \"true\"  \r\n| summarize TotalUsage = sum(Quantity)/1000",
+            "crossComponentResources": [
+              "{clusterWS}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
+          },
+          {
+            "id": "68082641-98b2-464b-95e9-7eede87ea6fe",
+            "version": "KqlParameterItem/1.0",
+            "name": "avgClusterUsage",
+            "type": 1,
+            "query": "let daysBin = toint(datetime_diff('day',{TimeRange:end}, startofday({TimeRange:start})));\r\nUsage\r\n| where TimeGenerated >= startofday({TimeRange:start})\r\n| where IsBillable == \"true\"  \r\n| summarize WSUsage = sum(Quantity)/daysBin / 1000\r\n",
+            "crossComponentResources": [
+              "{clusterWS}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
+          },
+          {
+            "id": "76cb3740-1355-4e66-b5b5-9fe87b9c18e6",
+            "version": "KqlParameterItem/1.0",
+            "name": "clusterCount",
+            "type": 1,
+            "query": "resources\r\n| where type =~ 'microsoft.operationalinsights/clusters'\r\n| summarize count()",
+            "crossComponentResources": [
+              "{Workspaces}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          },
+          {
+            "version": "KqlParameterItem/1.0",
+            "name": "clusterNodeCount",
+            "type": 1,
+            "query": "resources\r\n| where type =~ 'microsoft.operationalinsights/clusters'\r\n| project clusterNodeCount = array_length(properties.associatedWorkspaces)",
+            "crossComponentResources": [
+              "{Workspaces}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "id": "46fa9aa9-16fb-49b1-bf64-92d6807d23be"
+          },
+          {
+            "id": "ff1e5c6e-f67a-4469-be78-df1ee88e245e",
+            "version": "KqlParameterItem/1.0",
+            "name": "workspaceCount",
+            "type": 1,
+            "query": "resources\r\n| where type =~ 'microsoft.operationalinsights/workspaces'\r\n| where id in~ ({WSnoclusters}) or '*' in~ ({WSnoclusters})\r\n| summarize count()",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "defaultValue": "value::1",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          }
+        ],
+        "style": "pills",
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources"
+      },
+      "conditionalVisibility": {
+        "parameterName": "showCluster",
+        "comparison": "isEqualTo",
+        "value": "true"
+      },
+      "name": "parameters - 0"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "{Workspaces}"
+        ],
+        "parameters": [
+          {
+            "id": "7e0fb4fe-024e-4507-8ee1-93db80e2cefc",
+            "version": "KqlParameterItem/1.0",
+            "name": "locations",
+            "label": "this parameter is used to created dynamic OData to send to the pricing API",
+            "type": 1,
+            "query": "print locations = todynamic(\"{workspaceLocation}\")\r\n| extend locations = replace(@',', ' or armRegionName eq ', tostring(locations))\r\n| extend locations = strcat('armRegionName eq ', locations)",
+            "crossComponentResources": [
+              "{Workspaces}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
+          },
+          {
+            "id": "b348c935-916f-4ea1-b3ef-2db6c1a33a36",
+            "version": "KqlParameterItem/1.0",
+            "name": "priceAPI",
+            "type": 1,
+            "query": "{\"version\":\"CustomEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"url\":\"https://prices.azure.com/api/retail/prices?$filter=({locations} and serviceFamily eq 'Management and Governance' and contains(meterName, 'Commitment Tier')) or ({locations} and serviceName eq 'Log Analytics')\",\"contentType\":\"text/plain\",\"urlParams\":[],\"transformers\":null}",
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "queryType": 10
+          },
+          {
+            "id": "62ae01de-90d1-4835-8faa-ece915ae353a",
+            "version": "KqlParameterItem/1.0",
+            "name": "TotalLAGB",
+            "type": 1,
+            "query": "let daysBin = toint(datetime_diff('day',{TimeRange:end}, startofday({TimeRange:start})));\r\nUsage\r\n| where TimeGenerated >= startofday({TimeRange:start})\r\n| where IsBillable == \"true\"  \r\n| summarize TotalUsage = sum(Quantity) / 1000",
+            "crossComponentResources": [
+              "{WSnoclusters}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
+          },
+          {
+            "id": "5d166bca-6d58-449c-aef7-c4ef2be8d171",
+            "version": "KqlParameterItem/1.0",
+            "name": "avgLAGB",
+            "type": 1,
+            "query": "let daysBin = toint(datetime_diff('day',{TimeRange:end}, startofday({TimeRange:start})));\r\nUsage\r\n| where TimeGenerated >= startofday({TimeRange:start})\r\n| where IsBillable == \"true\"  \r\n| summarize AvgUsage = sum(Quantity)/daysBin / 1000",
+            "crossComponentResources": [
+              "{WSnoclusters}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
+          },
+          {
+            "id": "40f0625e-3dcf-4875-8178-36a0f89db6a4",
+            "version": "KqlParameterItem/1.0",
+            "name": "laPrices",
+            "type": 1,
+            "query": "print priceAPI = todynamic('{priceAPI}')\r\n| mv-expand priceAPI = priceAPI.Items\r\n| extend retailPrice = todouble(priceAPI.retailPrice),\r\n        location = tolower(priceAPI.armRegionName),\r\n        meterName = tostring(priceAPI.meterName),\r\n        skuName = tostring(priceAPI.skuName),\r\n        unitOfMeasure = tostring(priceAPI.unitOfMeasure)\r\n| extend sku = case(skuName == \"Pay-as-you-go\", \"pergb2018\",\r\n            skuName == \"Free\", \"free\",\r\n            skuName == \"PerNode\", \"pernode\",\r\n            skuName has 'Commitment Tier', 'lacluster','')\r\n| where retailPrice != 0 \r\n        and isnotempty(skuName)\r\n        and meterName !has \"Pay-as-you-go Data Retention\"\r\n        and meterName !has \"Pay-as-you-go Data Analyzed\"\r\n| extend bag = pack(\"retailPrice\", retailPrice,\"location\",location, \"meterName\",meterName, \"skuName\", sku, \"unitOfMeasure\", unitOfMeasure)\r\n| summarize bag=tostring(make_list(bag))",
+            "crossComponentResources": [
+              "{Workspaces}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
+          },
+          {
+            "id": "5351e983-8866-4cbb-a933-d073483d2884",
+            "version": "KqlParameterItem/1.0",
+            "name": "clusterCheck",
+            "type": 1,
+            "isHiddenWhenLocked": true,
+            "criteriaData": [
+              {
+                "criteriaContext": {
+                  "leftOperand": "clusterWS",
+                  "operator": "isNotNull",
+                  "rightValType": "param",
+                  "resultValType": "static",
+                  "resultVal": "true"
+                }
+              },
+              {
+                "criteriaContext": {
+                  "operator": "Default",
+                  "resultValType": "static",
+                  "resultVal": "false"
+                }
+              }
+            ],
+            "timeContext": {
+              "durationMs": 86400000
+            }
+          },
+          {
+            "id": "5a2999ca-a038-4b37-9e6a-06da972a1f8f",
+            "version": "KqlParameterItem/1.0",
+            "name": "commitmentTier",
+            "type": 1,
+            "query": "print WSUsage = {avgLAGB}\r\n| extend CommitmentTier = case(\r\n        WSUsage > 100 and WSUsage < 200, \"if consolidated these would meet the 100GB CommitmentTier\",\r\n        WSUsage > 200 and WSUsage < 300, \"if consolidated these would meet the 200GB CommitmentTier\",\r\n        WSUsage > 300 and WSUsage < 400, \"if consolidated these would meet the 300GB CommitmentTier\",\r\n        WSUsage > 500 and WSUsage < 500, \"if consolidated these would meet the 400GB CommitmentTier\",\r\n        WSUsage > 500 and WSUsage < 1000, \"if consolidated these would meet the 500GB CommitmentTier\",\r\n        WSUsage > 1000 and WSUsage < 2000, \"if consolidated these would meet the 1000GB CommitmentTier\",\r\n        WSUsage > 2000 and WSUsage < 5000, \"if consolidated these would meet the 2000GB CommitmentTier\",\r\n        WSUsage > 5000, \"if consolidated these would meet the 5000GB CommitmentTier\", \"Which does not qualify for any commitment tier\")",
+            "crossComponentResources": [
+              "{Workspaces}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 4"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "resources \r\n| where type =~ 'microsoft.insights/components' \r\n        or type =~ 'microsoft.operationalinsights/workspaces'\r\n| extend IngestionMode = tostring(properties.IngestionMode)\r\n| extend parentWorkspace = iff(IngestionMode == \"ApplicationInsights\", \"Classic\", tostring(properties.WorkspaceResourceId))\r\n| summarize count() by type",
+        "size": 3,
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources",
+        "crossComponentResources": [
+          "{Subscriptions}"
+        ],
+        "visualization": "tiles",
+        "tileSettings": {
+          "titleContent": {
+            "columnMatch": "type",
+            "formatter": 16,
+            "formatOptions": {
+              "showIcon": true
+            }
+          },
+          "leftContent": {
+            "columnMatch": "count_",
+            "formatter": 12,
+            "formatOptions": {
+              "palette": "auto"
+            },
+            "numberFormat": {
+              "unit": 17,
+              "options": {
+                "maximumSignificantDigits": 3,
+                "maximumFractionDigits": 2
+              }
+            }
+          },
+          "showBorder": true
+        }
+      },
+      "name": "query - Workspace Count"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "resources \r\n| where type =~ 'microsoft.insights/components' \r\n        or type =~ 'microsoft.operationalinsights/workspaces'\r\n        or type =~ 'microsoft.operationalinsights/clusters'\r\n| extend Workspace = tolower(iff(type =~ 'microsoft.operationalinsights/workspaces', id, ''))\r\n\t| join kind=leftouter(resources\r\n        | where type == \"microsoft.operationsmanagement/solutions\"\r\n        | project Solution=plan.name, Workspace=tolower(properties.workspaceResourceId)\r\n        | summarize Solutions = strcat_array(make_list(Solution), \",\") by Workspace\r\n        ) on Workspace\r\n| extend IngestionMode = tostring(properties.IngestionMode)\r\n| extend parentWorkspace = iff(IngestionMode =~ \"ApplicationInsights\", \"Classic\", tostring(properties.WorkspaceResourceId))\r\n| summarize Sentinel = countif(Solutions has 'SecurityInsights'), \r\n            DedicatedClusters= countif(type =~ 'microsoft.operationalinsights/clusters'),\r\n            ClassicAppInsights = countif(IngestionMode == \"ApplicationInsights\"),\r\n            WorkspaceAppInsights = countif(IngestionMode == \"LogAnalytics\"),\r\n            LogAnalytics = countif(type =~ 'microsoft.operationalinsights/workspaces') \r\n| extend LogAnalytics = LogAnalytics - Sentinel \r\n| extend Chart = pack_all()\r\n| project Chart\r\n| mv-expand bagexpansion = array Chart\r\n| project tostring(name = Chart[0]), Count = todouble(Chart[1])\r\n| extend type = case(\r\n    name contains \"AppInsights\", 'microsoft.insights/components',\r\n    name == \"DedicatedClusters\",'microsoft.operationalinsights/clusters',\r\n    name == \"LogAnalytics\", 'microsoft.operationalinsights/workspaces',\r\n    name == \"Sentinel\", 'microsoft.operationalinsights/workspaces','' )",
+        "size": 3,
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources",
+        "crossComponentResources": [
+          "{Subscriptions}"
+        ],
+        "visualization": "tiles",
+        "tileSettings": {
+          "titleContent": {
+            "columnMatch": "type",
+            "formatter": 16,
+            "formatOptions": {
+              "showIcon": true
+            }
+          },
+          "leftContent": {
+            "columnMatch": "Count",
+            "formatter": 12,
+            "formatOptions": {
+              "palette": "auto"
+            },
+            "numberFormat": {
+              "unit": 17,
+              "options": {
+                "style": "decimal",
+                "maximumFractionDigits": 2,
+                "maximumSignificantDigits": 3
+              }
+            }
+          },
+          "rightContent": {
+            "columnMatch": "name",
+            "formatter": 1
+          },
+          "showBorder": true,
+          "sortCriteriaField": "Count",
+          "sortOrderField": 2,
+          "size": "auto"
+        }
+      },
+      "name": "query - 2 - Workspace breakdown"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "# Log Analytics Clusters\r\n\r\n### Found {clusterCount} Log Analytics Dedicated Cluster(s) with a total of {clusterNodeCount} Workspaces\r\n\r\n### Average daily cluster usage: {avgClusterUsage} GB\r\n\r\n### Total usage over {TimeRange} is: {totalClusterUsage}\r\n\r\n## Workspaces not associated with a cluster\r\n\r\n### {workspaceCount} Log Analytics workspaces ingesting daily average of {avgLAGB} GB and a total {TotalLAGB} GB over {TimeRange}. {commitmentTier}\r\nNote: Workbooks can query a maximum of 100 Workspaces at one time.",
+        "style": "success"
+      },
+      "conditionalVisibility": {
+        "parameterName": "clusterCheck",
+        "comparison": "isEqualTo",
+        "value": "true"
+      },
+      "name": "text - 6",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "# Log Analytics\r\n\r\n### {workspaceCount} Log Analytics workspaces ingesting daily average of {avgLAGB} GB and a total {TotalLAGB} GB over {TimeRange}. {commitmentTier}\r\nNote: Workbooks can query a maximum of 100 Workspaces at one time.",
+        "style": "success"
+      },
+      "conditionalVisibility": {
+        "parameterName": "clusterCheck",
+        "comparison": "isEqualTo",
+        "value": "false"
+      },
+      "name": "text - 6 - Copy",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## Please wait\r\n\r\nWe're loading data and bringing it all together.\r\n\r\n\r\n### Troubleshooting\r\nThe four main parameters that get joined together are: wsappinsights, ARGInventory, loganalytics, laPrices.\r\nIf any one of these fails to load, the join query will fail. Look at these parameters first to verify they loaded and retrieved data. Of course, these parameters rely on other parameters, thus it could be a different parameter that is causing the failure."
+      },
+      "conditionalVisibility": {
+        "parameterName": "laPrices",
+        "comparison": "isEqualTo",
+        "value": ""
+      },
+      "name": "text - 8"
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "let arg = materialize(datatable(row:string) ['{ARGInventory}']\r\n| project row = todynamic(row)\r\n| mv-expand row\r\n| evaluate bag_unpack(row)\r\n| extend skuName = tostring(skuName));\r\nlet loganalytics = materialize(datatable(row:string) ['{loganalytics}']\r\n| project row = todynamic(row)\r\n| mv-expand row\r\n| evaluate bag_unpack(row));\r\nlet wsappinsights = materialize(datatable(row:string) ['{wsappinsights}']\r\n| project row = todynamic(row)\r\n| mv-expand row\r\n| evaluate bag_unpack(row));\r\nlet laPrices = materialize(datatable(row:string) ['{laPrices:parsejson}']\r\n| project row = todynamic(row)\r\n| mv-expand row\r\n| evaluate bag_unpack(row));\r\narg \r\n    | join kind = leftouter (loganalytics) on id\r\n    | join kind = leftouter (wsappinsights) on id\r\n    | join kind = leftouter (laPrices) on location, skuName\r\n| project-away id1, id2, id3, apiVersion, location1, skuName1, tenantId\r\n| extend CommitmentTier = tostring(coalesce(CommitmentTier, CommitmentTier1)), \r\n        LastLog = coalesce(lastlog,lastlog1),\r\n        Records = toint(coalesce(records, records1)),\r\n        TotalUsage = todouble(coalesce(WSUsage, WSUsage1)),\r\n        AvgDailyUsage = todouble(coalesce(WSUsage, WSUsage1)),\r\n        noteText = iff(IngestionMode == \"Classic\", \"On February 29th, 2024, support for classic Application Insights ended. Transition to workspace-based Application Insights to take advantage of new capabilities. Newer regions introduced after February 2021 do not support creating classic Application Insights resources.\", 'No action needed. This Workspace is using the correct Log Analytics Workspace method')\r\n| extend CommitmentTier = iff(isempty(CommitmentTier), \"Issue\", CommitmentTier),\r\n        Records = iff(isempty(Records), 0, Records)\r\n| extend CommitmentText = case(CommitmentTier == \"Issue\", \"No logs found for this Workspace. Either this Workspace isn't being used and should be decomissioned. Or we ran into an issue querying logs with your account. Verify you have read access\",\r\n        CommitmentTier == \"Does Not Qualify\", \"This Workspace, does not currently qualify for Capacity Reservations\",\r\n        ''),\r\n        RBACexplanation = \"WorkspaceRBAC = True, means a user needs read access to the Log Analytics Workspace to view logs. False means Resource context is enabled. See more https://learn.microsoft.com/en-us/azure/azure-monitor/logs/manage-access?tabs=portal#access-control-mode\"\r\n| extend TotalEstCost = TotalUsage * retailPrice, \r\n        AvgDailyEstCost = AvgDailyUsage * retailPrice\r\n| extend Details = pack_all()\r\n| extend LinkedAppInsights = tostring(LinkedAppInsights)\r\n| project id, LinkedAppInsights = iff(isnotempty(LinkedAppInsights), strcat('📋 ', LinkedAppInsights), ''), IngestionMode, ParentWorkspace, Quota, Retention, WorkspaceRBAC, LastLog, Records, CommitmentTier, AvgDailyUsage, AvgDailyEstCost, TotalUsage, TotalEstCost, Details, CommitmentText, RBACexplanation, noteText, AppInsights",
+              "size": 2,
+              "timeContextFromParameter": "TimeRange",
+              "showExportToExcel": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Workspaces}"
+              ],
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "id",
+                    "formatter": 13,
+                    "formatOptions": {
+                      "linkTarget": null,
+                      "showIcon": true,
+                      "customColumnWidthSetting": "24.2857ch"
+                    }
+                  },
+                  {
+                    "columnMatch": "LinkedAppInsights",
+                    "formatter": 1,
+                    "formatOptions": {
+                      "linkColumn": "AppInsights",
+                      "linkTarget": "CellDetails",
+                      "linkIsContextBlade": true,
+                      "customColumnWidthSetting": "15.2857ch"
+                    }
+                  },
+                  {
+                    "columnMatch": "IngestionMode",
+                    "formatter": 18,
+                    "formatOptions": {
+                      "linkColumn": "noteText",
+                      "linkTarget": "CellDetails",
+                      "linkIsContextBlade": true,
+                      "thresholdsOptions": "icons",
+                      "thresholdsGrid": [
+                        {
+                          "operator": "==",
+                          "thresholdValue": "Classic",
+                          "representation": "2",
+                          "text": "{0}{1}"
+                        },
+                        {
+                          "operator": "==",
+                          "thresholdValue": "LogAnalytics",
+                          "representation": "Resolved",
+                          "text": "{0}{1}"
+                        },
+                        {
+                          "operator": "Default",
+                          "thresholdValue": null,
+                          "representation": "Blank",
+                          "text": "{0}{1}"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "columnMatch": "ParentWorkspace",
+                    "formatter": 13,
+                    "formatOptions": {
+                      "linkTarget": null,
+                      "showIcon": true,
+                      "customColumnWidthSetting": "23.7143ch"
+                    }
+                  },
+                  {
+                    "columnMatch": "Quota",
+                    "formatter": 0,
+                    "formatOptions": {
+                      "customColumnWidthSetting": "14ch"
+                    }
+                  },
+                  {
+                    "columnMatch": "Retention",
+                    "formatter": 0,
+                    "numberFormat": {
+                      "unit": 27,
+                      "options": {
+                        "style": "decimal"
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "WorkspaceRBAC",
+                    "formatter": 18,
+                    "formatOptions": {
+                      "linkColumn": "RBACexplanation",
+                      "linkTarget": "CellDetails",
+                      "linkIsContextBlade": true,
+                      "thresholdsOptions": "icons",
+                      "thresholdsGrid": [
+                        {
+                          "operator": "==",
+                          "thresholdValue": "true",
+                          "representation": "1",
+                          "text": "{0}{1}"
+                        },
+                        {
+                          "operator": "==",
+                          "text": "{0}{1}"
+                        },
+                        {
+                          "operator": "Default",
+                          "thresholdValue": null,
+                          "representation": "success",
+                          "text": "{0}{1}"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "columnMatch": "LastLog",
+                    "formatter": 8,
+                    "formatOptions": {
+                      "min": 0,
+                      "palette": "greenRed",
+                      "customColumnWidthSetting": "18.2857ch"
+                    },
+                    "numberFormat": {
+                      "unit": 24,
+                      "options": {
+                        "style": "decimal"
+                      },
+                      "emptyValCustomText": "No Logs Found"
+                    }
+                  },
+                  {
+                    "columnMatch": "Records",
+                    "formatter": 0,
+                    "formatOptions": {
+                      "customColumnWidthSetting": "13ch"
+                    }
+                  },
+                  {
+                    "columnMatch": "CommitmentTier",
+                    "formatter": 18,
+                    "formatOptions": {
+                      "linkColumn": "CommitmentText",
+                      "linkTarget": "CellDetails",
+                      "linkIsContextBlade": true,
+                      "thresholdsOptions": "icons",
+                      "thresholdsGrid": [
+                        {
+                          "operator": "==",
+                          "thresholdValue": "Does Not Qualify",
+                          "representation": "1",
+                          "text": "{0}{1}"
+                        },
+                        {
+                          "operator": "==",
+                          "thresholdValue": "Issue",
+                          "representation": "2",
+                          "text": "{0}{1}"
+                        },
+                        {
+                          "operator": "Default",
+                          "thresholdValue": null,
+                          "representation": "success",
+                          "text": "{0}{1}"
+                        }
+                      ],
+                      "customColumnWidthSetting": "20.4286ch"
+                    }
+                  },
+                  {
+                    "columnMatch": "Usage",
+                    "formatter": 8,
+                    "formatOptions": {
+                      "min": 0,
+                      "palette": "coldHot",
+                      "customColumnWidthSetting": "18.2857ch"
+                    },
+                    "numberFormat": {
+                      "unit": 5,
+                      "options": {
+                        "style": "decimal"
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "AvgDailyEstCost",
+                    "formatter": 0,
+                    "formatOptions": {
+                      "customColumnWidthSetting": "21.1429ch"
+                    },
+                    "numberFormat": {
+                      "unit": 0,
+                      "options": {
+                        "currency": "USD",
+                        "style": "currency"
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "TotalEstCost",
+                    "formatter": 0,
+                    "formatOptions": {
+                      "customColumnWidthSetting": "19ch"
+                    },
+                    "numberFormat": {
+                      "unit": 0,
+                      "options": {
+                        "currency": "USD",
+                        "style": "currency"
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "Details",
+                    "formatter": 7,
+                    "formatOptions": {
+                      "linkTarget": "CellDetails",
+                      "linkLabel": "🔍 View Details",
+                      "linkIsContextBlade": true
+                    }
+                  },
+                  {
+                    "columnMatch": "CommitmentText",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "RBACexplanation",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "noteText",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "AppInsights",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "name",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "subscriptionId",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "lastlog",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "records",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "WSUsage",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "CommitmentTier1",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "lastlog1",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "records1",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "WSUsage1",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "retailPrice",
+                    "formatter": 1,
+                    "numberFormat": {
+                      "unit": 0,
+                      "options": {
+                        "currency": "USD",
+                        "style": "currency"
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "CommitmentTier2",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "lastlog2",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "records2",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "WSUsage2",
+                    "formatter": 5
+                  }
+                ],
+                "rowLimit": 10000,
+                "filter": true
+              },
+              "sortBy": []
+            },
+            "name": "query - 5"
+          }
+        ]
+      },
+      "conditionalVisibilities": [
+        {
+          "parameterName": "ARGInventory",
+          "comparison": "isNotEqualTo"
+        },
+        {
+          "parameterName": "loganalytics",
+          "comparison": "isNotEqualTo"
+        },
+        {
+          "parameterName": "wsappinsights",
+          "comparison": "isNotEqualTo"
+        },
+        {
+          "parameterName": "laPrices",
+          "comparison": "isNotEqualTo"
+        }
+      ],
+      "name": "group - Details"
+    }
+  ],
+  "fallbackResourceIds": [
+    "Azure Monitor"
+  ],
+  "fromTemplateId": "community-Workbooks/byork/servicehealth",
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
