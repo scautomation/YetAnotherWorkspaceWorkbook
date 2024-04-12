@@ -1079,6 +1079,6 @@
   "fallbackResourceIds": [
     "Azure Monitor"
   ],
-  "fromTemplateId": "community-Workbooks/byork/servicehealth",
+  "fromTemplateId": "community-Workbooks/byork/workspaceconsolidation",
   "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
 }
