@@ -402,7 +402,8 @@
             },
             "timeContextFromParameter": "TimeRange",
             "queryType": 0,
-            "resourceType": "microsoft.operationalinsights/workspaces"
+            "resourceType": "microsoft.operationalinsights/workspaces",
+            "value": null
           },
           {
             "id": "76cb3740-1355-4e66-b5b5-9fe87b9c18e6",
@@ -472,9 +473,6 @@
       "type": 9,
       "content": {
         "version": "KqlParameterItem/1.0",
-        "crossComponentResources": [
-          "{Workspaces}"
-        ],
         "parameters": [
           {
             "id": "7e0fb4fe-024e-4507-8ee1-93db80e2cefc",
@@ -498,7 +496,7 @@
             "version": "KqlParameterItem/1.0",
             "name": "priceAPI",
             "type": 1,
-            "query": "{\"version\":\"CustomEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"url\":\"https://prices.azure.com/api/retail/prices?$filter=({locations} and serviceFamily eq 'Management and Governance' and contains(meterName, 'Commitment Tier')) or ({locations} and serviceName eq 'Log Analytics')\",\"contentType\":\"text/plain\",\"urlParams\":[],\"transformers\":null}",
+            "query": "{\"version\":\"CustomEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"url\":\"https://prices.azure.com/api/retail/prices?$filter=(serviceName eq 'Log Analytics' and ({locations})) \",\"contentType\":\"text/plain\",\"urlParams\":[],\"transformers\":null}",
             "isHiddenWhenLocked": true,
             "timeContext": {
               "durationMs": 86400000
@@ -601,8 +599,7 @@
           }
         ],
         "style": "pills",
-        "queryType": 0,
-        "resourceType": "microsoft.operationalinsights/workspaces"
+        "queryType": 10
       },
       "name": "parameters - 4"
     },
